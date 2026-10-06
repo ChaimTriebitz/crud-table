@@ -9,6 +9,7 @@ const LenderSchema = new mongoose.Schema({
    office: { type: String },
    cell: { type: String },
    email: { type: String },
+   notes: { type: String },
    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
 }, { timestamps: true });
 
