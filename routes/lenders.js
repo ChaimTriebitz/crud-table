@@ -5,12 +5,9 @@ const { protect } = require('../middleware/auth')
 
 router.route('/').get(get)
 
-router.route('/createMany').post(createMany)
-
-router.route('/create').post(create)
-
-router.route('/update/:id').put(update)
-
+router.route('/createMany').post(protect, createMany)
+router.route('/create').post(protect, create)
+router.route('/update/:id').put(protect, update)
 router.route('/remove/:id').delete(protect, remove)
 
 module.exports = router
