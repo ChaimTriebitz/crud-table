@@ -12,3 +12,11 @@
 # production
 /build
 
+
+# Local exports and source spreadsheets may contain private business contacts
+/data.json
+/data/*.xlsx
+
+# Environment files
+.env.*
+!.env.example
