@@ -11,7 +11,7 @@ async function register(req, res, next) {
 
    try {
       const user = await User.create({ username, email, password })
-      sendToken(user, 201, res)
+      sendToken(user, 200, res)
    } catch (err) {
       next(err)
    }
