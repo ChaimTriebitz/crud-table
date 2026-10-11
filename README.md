@@ -1,5 +1,8 @@
 # Vito API — Banks & Lenders Directory
 
+
+[![Backend CI](https://github.com/ChaimTriebitz/crud-table/actions/workflows/ci.yml/badge.svg)](https://github.com/ChaimTriebitz/crud-table/actions/workflows/ci.yml)
+
 Express and MongoDB API for Vito, a table-based directory for managing bank and lender records. The API supports user authentication, listing data, and owner-scoped record changes.
 
 **Live API health:** [vito-back.onrender.com/health](https://vito-back.onrender.com/health)  
