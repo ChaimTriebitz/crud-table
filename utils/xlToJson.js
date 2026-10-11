@@ -1,24 +1,33 @@
-const xlsx = require('xlsx');
-const path = require('path');
+const fs = require('node:fs')
+const path = require('node:path')
+const XLSX = require('xlsx')
 
-// Define the path to the Excel file in the 'data' folder
-const excelFilePath = path.join(__dirname, '../data/Lenders.xlsx');
+const inputFile = process.argv[2]
+const outputFile = process.argv[3]
 
-// Load the Excel file
-const workbook = xlsx.readFile(excelFilePath);
+if (!inputFile) {
+   console.error('Usage: node utils/xlToJson.js <input.xlsx> [output.json]')
+   process.exit(1)
+}
 
-// Select the first sheet
-const sheetName = workbook.SheetNames[0];
-const sheet = workbook.Sheets[sheetName];
+try {
+   const workbook = XLSX.readFile(path.resolve(inputFile))
+   const firstSheetName = workbook.SheetNames[0]
 
-// Convert the sheet to JSON
-const jsonData = xlsx.utils.sheet_to_json(sheet);
+   if (!firstSheetName) {
+      throw new Error('The workbook does not contain any worksheets')
+   }
 
-console.log(jsonData);
-// Define the output path for the JSON file
-const outputJsonPath = path.join(__dirname, '../data.json');
+   const worksheet = workbook.Sheets[firstSheetName]
+   const rows = XLSX.utils.sheet_to_json(worksheet)
 
-// Save the data to a JSON file
-// fs.writeFileSync(outputJsonPath, JSON.stringify(jsonData, null, 2));
-
-console.log('Excel file successfully converted to JSON!');
+   if (outputFile) {
+      fs.writeFileSync(path.resolve(outputFile), JSON.stringify(rows, null, 2) + '\n')
+      console.log(`Converted ${rows.length} rows to ${path.resolve(outputFile)}`)
+   } else {
+      process.stdout.write(JSON.stringify(rows, null, 2) + '\n')
+   }
+} catch (error) {
+   console.error(`Could not convert spreadsheet: ${error.message}`)
+   process.exitCode = 1
+}
